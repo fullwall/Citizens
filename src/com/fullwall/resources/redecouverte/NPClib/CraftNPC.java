@@ -25,7 +25,7 @@ public class CraftNPC extends EntityPlayer {
         super(minecraftserver, world, s, iteminworldmanager);
 
         NetworkManager netMgr = new NPCNetworkManager(new NPCSocket(), "npc mgr", null);
-        this.a = new NPCNetHandler(minecraftserver, this, netMgr);
+        this.netServerHandler = new NPCNetHandler(minecraftserver, this, netMgr);
 
         this.lastTargetId = -1;
         this.lastBounceId = -1;
@@ -33,7 +33,7 @@ public class CraftNPC extends EntityPlayer {
     }
 
     public void animateArmSwing() {
-        this.b.k.a(this, new Packet18ArmAnimation(this, 1));
+        this.netServerHandler.sendPacket(new Packet18ArmAnimation(this, 1));
     }
 
     @Override

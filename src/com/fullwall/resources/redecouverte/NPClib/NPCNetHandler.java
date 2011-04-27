@@ -22,7 +22,7 @@ public class NPCNetHandler extends NetServerHandler
     }
 
     @Override
-    public void a(String s) {
+    public void disconnect(String s) {
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NPCNetHandler extends NetServerHandler
     }
 
     @Override
-    public void b(Packet packet) {
+    public void sendPacket(Packet packet) {
     }
 
     @Override
@@ -79,11 +79,11 @@ public class NPCNetHandler extends NetServerHandler
     }
 
     @Override
-    public void b(String s) {
+    public void sendMessage(String s) {
     }
 
     @Override
-    public String c() {
+    public String getName() {
         return "";
     }
 

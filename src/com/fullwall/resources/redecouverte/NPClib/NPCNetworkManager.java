@@ -2,7 +2,7 @@ package com.fullwall.resources.redecouverte.NPClib;
 
 import java.lang.reflect.Field;
 import java.net.Socket;
-import java.net.SocketAddress;
+
 import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
@@ -31,16 +31,11 @@ public class NPCNetworkManager extends NetworkManager {
 	}
 
 	@Override
-	public void a(String paramString, Object[] paramArrayOfObject) {
+	public void a(String paramString, Object ... paramArrayOfObject) {
 	}
 
 	@Override
 	public void a() {
-	}
-
-	@Override
-	public SocketAddress b() {
-		return super.b();
 	}
 
 	@Override

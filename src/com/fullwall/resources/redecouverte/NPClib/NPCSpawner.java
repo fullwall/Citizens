@@ -1,19 +1,19 @@
 package com.fullwall.resources.redecouverte.NPClib;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityTypes;
 import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
+
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.LivingEntity;
 
 public class NPCSpawner {
 
@@ -59,7 +59,6 @@ public class NPCSpawner {
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static HumanNPC SpawnBasicHumanNpc(int UID, String name, 
 			World world, double x, double y, double z, float yaw, float pitch) {
 		try {
@@ -67,26 +66,8 @@ public class NPCSpawner {
 			MinecraftServer ms = GetMinecraftServer(ws.getServer());
 
 			CraftNPC eh = new CraftNPC(ms, ws, name, new ItemInWorldManager(ws));
-			eh.c(x, y, z, yaw, pitch);
-
-			int m = MathHelper.b(eh.locX / 16.0D);
-			int n = MathHelper.b(eh.locZ / 16.0D);
-
-			ws.c(m, n).a(eh);
-			ws.b.add(eh);
-
-			// ws.b(eh);
-			Class params[] = new Class[1];
-			params[0] = Entity.class;
-
-			Method method;
-			method = net.minecraft.server.World.class.getDeclaredMethod("b",
-					params);
-			method.setAccessible(true);
-			Object margs[] = new Object[1];
-			margs[0] = eh;
-			method.invoke(ws, margs);
-
+			eh.setPositionRotation(x, y, z, yaw, pitch);
+			ws.addEntity(eh);
 			return new HumanNPC(eh, UID, name);
 
 		} catch (Exception e) {
@@ -98,7 +79,7 @@ public class NPCSpawner {
 
 	public static void RemoveBasicHumanNpc(HumanNPC npc) {
 		try {
-			npc.getMCEntity().world.e(npc.getMCEntity());
+			npc.getMCEntity().world.removeEntity(npc.getMCEntity());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,7 +93,7 @@ public class NPCSpawner {
 			WorldServer ws = GetWorldServer(world);
 
 			Entity eh = EntityTypes.a(type.getName(), ws);
-			eh.c(x, y, z, 0, 0);
+			eh.setPositionRotation(x, y, z, 0, 0);
 			ws.a(eh);
 
 			return (LivingEntity) eh.getBukkitEntity();
