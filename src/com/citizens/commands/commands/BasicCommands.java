@@ -469,15 +469,49 @@ public class BasicCommands implements CommandHandler {
 
 	@Command(
 			aliases = "npc",
-			usage = "item [item]",
+			usage = "equip [item]",
 			desc = "set the item in an NPC's hand",
-			modifiers = "item",
+			modifiers = "equip",
 			min = 2,
 			max = 2)
 	@CommandPermissions("basic.modify.item")
-	public static void item(CommandContext args, Player player, HumanNPC npc) {
+	public static void itemEquip(CommandContext args, Player player, HumanNPC npc) {
+		int itemInHand = npc.getInventory().getItemInHand().getTypeId();
+		if (itemInHand == 0) { 
 		NPCDataManager.setItemInHand(player, npc, args.getString(1));
+		} else {
+			player.sendMessage(StringUtils.wrap(npc.getStrippedName()) + " is already holding something!");
+		}
 	}
+	
+	@Command(
+			aliases = "npc",
+			usage = "unequip",
+			desc = "take the item in an NPC's hand",
+			modifiers = "unequip",
+			min = 1,
+			max = 1)
+	@CommandPermissions("basic.modify.item")
+	public static void itemUnequip(CommandContext args, Player player, HumanNPC npc) {
+		ItemStack itemInHand = npc.getInventory().getItemInHand();
+		ItemStack playerItemInHand = player.getItemInHand();
+		if (itemInHand.getTypeId() == 0) {
+			player.sendMessage("The NPC isn't holding anything!");
+			return;
+		}
+		if (playerItemInHand.getTypeId() != 0) {
+		if (itemInHand == playerItemInHand) {
+		player.setItemInHand(itemInHand);
+		ItemStack item = new ItemStack(Material.AIR);
+		npc.getInventory().setItemInHand(item);
+		NPCManager.removeForRespawn(npc.getUID());
+		NPCManager.register(npc.getUID(), npc.getOwner());
+			} else {
+			}
+		} else {
+			player.sendMessage("You need a free hand to unequip your NPC.");
+		}
+		}
 
 	@Command(
 			aliases = "npc",
