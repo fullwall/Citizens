@@ -498,17 +498,14 @@ public class BasicCommands implements CommandHandler {
 			return;
 		}
 		if (playerItemInHand.getTypeId() != 0) {
-		if (itemInHand == playerItemInHand) {
+			player.sendMessage("You need a free hand to unequip your NPC.");
+			return;
+		}
 		player.setItemInHand(itemInHand);
 		ItemStack item = new ItemStack(Material.AIR);
 		npc.getInventory().setItemInHand(item);
 		NPCManager.removeForRespawn(npc.getUID());
 		NPCManager.register(npc.getUID(), npc.getOwner());
-			} else {
-			}
-		} else {
-			player.sendMessage("You need a free hand to unequip your NPC.");
-		}
 		}
 
 	@Command(
